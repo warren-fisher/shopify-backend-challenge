@@ -1,61 +1,54 @@
-import logo from './logo.svg';
 import './App.css';
 
-import Image from './image.js';
+import Upload from './upload/upload.js';
 
-import React, {useState} from 'react';
+import Gallery from './gallery/gallery.js';
+
+import Login from './login/login.js';
+
+import React, {useState, useEffect} from 'react';
+
+import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 
 function App() {
-    const [selectedFiles, setSelectedFiles] = useState();
-
-    const [uploadedFiles, setUploadedFiles] = useState([]);
-
-
-
-    const getState = () => {
-        fetch('http://localhost:5000/get/files')
-            .then(response => response.json())
-            .then(data => setUploadedFiles(data))
-            .catch(error => console.error(error));
-    }
-
-    const handleChange = (event) => {
-        setSelectedFiles(event.target.files[0]);
-    }
-
-    const handleSubmission = () => {
-        const formData = new FormData();
-
-        formData.append("File", selectedFiles);
-
-        fetch('http://localhost:5000/post/upload', {
-            method: 'POST',
-            body: formData,
-        })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
-    }
-
     return (
-        <div className = "App">
-            <h1> Upload new File</h1>
-            <form method="post" enctype="multipart/form-data">
-            <input type ="file" name="file" multiple="true" onChange={handleChange}/>
-            </form>
-            <input type="submit" value="Upload" onClick={handleSubmission} />
-            <input type="submit" value="Get images" onClick={getState}/>
+        <BrowserRouter>
+            <header>
+                <h2> Image hosting repository </h2>
 
-            {/* Display variable # of images based on GET request returning all images */}
-            {/* set KEY!!!! for Image comp.*/}
+                <h2><Link to={{pathname: "/",}}> Upload your images </Link> </h2>
+                <h2><Link to={{pathname: "/albums",}}> Albums</Link></h2>
+                <h2><Link to={{pathname: "/gallery",}}> Image Gallery</Link></h2>
+                <h2><Link to={{pathname: "/login", }}> Login</Link></h2>
 
-            <div id="imgs">
-            {
-                uploadedFiles.map((object, i) => <Image image_name={object} key={i}/>)
-            }
+            </header>
+
+            <div className="App">
+
+                <Switch>
+
+                    <Route exact path="/">
+                        <Upload/>
+                    </Route>
+
+                    <Route path="/albums">
+
+                    </Route>
+
+                    <Route path="/gallery">
+                        <Gallery/>
+                    </Route>
+
+                    <Route path="/login">
+                        <Login/>
+                    </Route>
+
+                </Switch>
+
             </div>
 
-        </div>
+
+        </BrowserRouter>
     );
 }
 

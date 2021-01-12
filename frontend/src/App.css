@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* Header */
+
+header {
+    display: flex;
+    flex-direction: row;
+    background-color: #282c34;
+}
+
+header h2 {
+    padding: 20px;
+    color: white;
+}

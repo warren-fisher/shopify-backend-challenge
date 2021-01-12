@@ -20,6 +20,10 @@ code {
 }
 
 img {
-    max-width: 100%;
+    max-width: 80%;
     height: auto;
+}
+
+.img-container {
+    width: 75%;
 }
