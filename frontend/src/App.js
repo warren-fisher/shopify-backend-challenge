@@ -4,6 +4,8 @@ import Upload from './upload/upload.js';
 
 import Gallery from './gallery/gallery.js';
 
+import Album from './albums/album.js';
+
 import Login from './login/login.js';
 
 import React, {useState, useEffect} from 'react';
@@ -32,6 +34,7 @@ function App() {
                     </Route>
 
                     <Route path="/albums">
+                        <Album/>
 
                     </Route>
 
