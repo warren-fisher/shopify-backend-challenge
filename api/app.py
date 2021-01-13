@@ -20,10 +20,15 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/uploads/<filename>')
+@app.route('/get/files/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
+
+@app.route('/get/albums/<album>/<filename>')
+def uploaded_file_in_album(album, filename):
+    path = os.path.join(app.config['UPLOAD_FOLDER'], app.config['ALBUM_FOLDER'], album)
+    return send_from_directory(path, filename)
 
 
 # TODO: filename conflicts
@@ -52,7 +57,6 @@ def get_files():
     _, _, filenames = next(os.walk(app.config['UPLOAD_FOLDER']))
 
     return jsonify(filenames)
-
 
 
 @app.route('/post/upload/album', methods=['POST'])

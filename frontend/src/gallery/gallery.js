@@ -20,7 +20,7 @@ export default function Gallery() {
 
     return (
         <div id="imgs">
-            { uploadedFiles.map((object, i) => <Image image_name={object} key={i} />) }
+            { uploadedFiles.map((object, i) => <Image image_name={object} key={i}/>) }
         </div>
     );
 }

@@ -27,7 +27,7 @@ export default function Album() {
 
                 return (
                     <div className="album" key={i}>
-                    {uploadedAlbums[album].map((image_name, j) => <Image image_name={image_name} key={j} />)}
+                    {uploadedAlbums[album].map((image_name, j) => <Image image_name={image_name} key={j} album_name={album}/>)}
                     </div>
                 );
 
