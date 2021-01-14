@@ -5,6 +5,8 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 from flask import jsonify
 
+import jwt
+
 import sql
 
 UPLOAD_FOLDER = '../uploads'
@@ -16,6 +18,7 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['ALBUM_FOLDER'] = ALBUM_FOLDER
+app.config['SECRET_KEY'] = 'ZSVH4q78vBia4GBYuqd09SsiMsIjH'
 
 # TODO: verify this?
 def allowed_file(filename):
@@ -81,6 +84,55 @@ def upload_album():
                 f.save(os.path.join(path, filename))
 
     return jsonify([])
+
+@app.route('/post/login', methods=['POST'])
+def login():
+    data = request.form
+
+    username = data['user']
+    hash_ = data['hash']
+    res = sql.login_user(username, hash_)
+
+    if res == 'failure':
+        # invalid
+        return jsonify([])
+    else:
+        # success
+        token = get_token(username)
+        return jsonify(token)
+
+# TODO: remove this method
+@app.route('/get/login/<username>/<password>')
+def temp_login(username, password):
+    res = sql.login_user(username, password)
+
+    if res == 'failure':
+        return jsonify({})
+    elif res == 'success':
+        token = get_token(username)
+        return jsonify(token)
+
+@app.route('/post/register', methods=['POST'])
+def register():
+    data = request.form
+
+    username = data['user']
+    hash_ = data['hash']
+    res = sql.create_user(username, hash_)
+
+    if res == 'failure':
+        # invalid
+        return jsonify([])
+    else:
+        # success
+        token = get_token(username)
+        print(token)
+        return jsonify(token)
+
+def get_token(username):
+    payload = {"user_id": username}
+    token = jwt.encode(payload, app.config['SECRET_KEY'])
+    return token
 
 @app.route('/get/albums', methods=['GET'])
 def get_albums():

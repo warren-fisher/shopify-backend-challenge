@@ -12,16 +12,18 @@ CREATE TABLE users (
 );
 
 CREATE TABLE albums (
-    A_ID SMALLINT(5),
+    A_ID SMALLINT(5) auto_increment,
     U_CODE SMALLINT(5),
+    A_PRIVATE TINYINT(1),
     A_NAME VARCHAR(32),
     PRIMARY KEY(A_ID),
     FOREIGN KEY(U_CODE) REFERENCES users (U_CODE)
 );
 
 CREATE TABLE photos (
-    P_ID SMALLINT(10),
+    P_ID SMALLINT(10) auto_increment,
     P_PRIVATE TINYINT(1),
+    P_NAME VARCHAR(32),
     A_ID SMALLINT(5),
     U_CODE SMALLINT(5),
     PRIMARY KEY (P_ID),

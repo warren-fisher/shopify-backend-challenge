@@ -1,0 +1,8 @@
+.valid {
+    /* border: 0; */
+
+}
+
+.invalid {
+    border-color: red;
+}
