@@ -5,6 +5,8 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 from flask import jsonify
 
+import sql
+
 UPLOAD_FOLDER = '../uploads'
 ALBUM_FOLDER = './albums'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -98,6 +100,14 @@ def get_albums():
         albums[d] = files
 
     return jsonify(albums)
+
+@app.route('/get/username/<name>')
+def check_if_name_available(name):
+    return jsonify(sql.check_user_name(name))
+
+@app.route('/post/create/user/<name>/<hash>')
+def create_user(name, hash):
+    return jsonify(sql.create_user(name, hash))
 
 if __name__ == '__main__':
     app.run(debug=True)
