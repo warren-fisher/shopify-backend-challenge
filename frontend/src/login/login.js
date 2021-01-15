@@ -42,7 +42,12 @@ async function checkUser(username) {
     return fetch(`http://localhost:5000/get/username/${username}`).then(response => response.json())
 }
 
-export default function Login() {
+/**
+ *
+ *
+ * @param {func} props.setToken, function to set the token
+ */
+export default function Login(props) {
 
     // State for username and password
     const [username, setUserName] = useState();
@@ -59,6 +64,8 @@ export default function Login() {
         let hash = await getHash(password);
 
         const token = await loginUser(username, hash);
+        console.log(token);
+        props.setToken(token);
     }
 
     // TODO: updating of states is one step behind (everywhere??)

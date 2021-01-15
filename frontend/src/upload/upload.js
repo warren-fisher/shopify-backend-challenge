@@ -1,5 +1,9 @@
 import React, {useState} from 'react';
 
+/**
+ *
+ * @param {*} props.token, the user token
+ */
 export default function Upload(props) {
     const [selectedFiles, setSelectedFiles] = useState();
     const [albumName, setAlbumName] = useState();

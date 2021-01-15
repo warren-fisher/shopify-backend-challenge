@@ -50,3 +50,21 @@ header h2 {
     padding: 20px;
     color: white;
 }
+
+/* Images */
+
+.imgs {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
+img {
+    max-width: 80%;
+    height: auto;
+}
+
+.img-container {
+    width: 75%;
+}

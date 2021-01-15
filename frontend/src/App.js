@@ -13,6 +13,8 @@ import React, {useState, useEffect} from 'react';
 import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 
 function App() {
+    const [token, setToken] = useState();
+
     return (
         <BrowserRouter>
             <header>
@@ -34,16 +36,16 @@ function App() {
                     </Route>
 
                     <Route path="/albums">
-                        <Album/>
+                        <Album token={token}/>
 
                     </Route>
 
                     <Route path="/gallery">
-                        <Gallery/>
+                        <Gallery token={token}/>
                     </Route>
 
                     <Route path="/login">
-                        <Login/>
+                        <Login setToken={setToken}/>
                     </Route>
 
                 </Switch>

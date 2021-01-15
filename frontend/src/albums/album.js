@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import Image from '../image.js';
 
-export default function Album() {
+/**
+ * 
+ * @param {str} props.token, the user token
+ */
+export default function Album(props) {
 
     const [uploadedAlbums, setUploadedAlbums] = useState([]);
 
 
     const getState = () => {
-        return fetch('http://localhost:5000/get/albums');
+        return fetch('http://localhost:5000/get/albums', {
+            headers: {
+                'token': props.token
+            }
+        });
     }
 
     useEffect(() => {

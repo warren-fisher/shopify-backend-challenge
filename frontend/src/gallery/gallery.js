@@ -1,13 +1,21 @@
 import React, { useEffect , useState} from 'react';
 import Image from '../image.js';
 
-export default function Gallery() {
+/**
+ *
+ * @param {str} props.token, the user token
+ */
+export default function Gallery(props) {
 
     const [uploadedFiles, setUploadedFiles] = useState([]);
 
 
     const getState = () => {
-        return fetch('http://localhost:5000/get/files');
+        return fetch('http://localhost:5000/get/files', {
+            headers: {
+                'token': props.token
+            }
+        });
     }
 
     useEffect(() => {
