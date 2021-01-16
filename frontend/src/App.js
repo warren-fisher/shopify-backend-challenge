@@ -12,8 +12,10 @@ import React, {useState, useEffect} from 'react';
 
 import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 
+import useToken from './useToken.js';
+
 function App() {
-    const [token, setToken] = useState('');
+    const [token, setToken] = useToken();
 
     return (
         <BrowserRouter>

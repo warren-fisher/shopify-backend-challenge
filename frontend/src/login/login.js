@@ -9,7 +9,7 @@ async function loginUser(username, hash) {
     formData.append('user', username);
     formData.append('hash', hash);
 
-    return fetch('http://localhost:5000/post/login', {
+    return fetch('https://apis.warrenfisher.net/post/login', {
         method: 'POST',
         body: formData,
     }).then(response => response.json());
@@ -21,7 +21,7 @@ async function registerUser(username, hash) {
     formData.append('user', username);
     formData.append('hash', hash);
 
-    return fetch('http://localhost:5000/post/register', {
+    return fetch('https://apis.warrenfisher.net/post/register', {
         method: 'POST',
         body: formData,
     }).then(response => response.json());
@@ -39,7 +39,7 @@ async function getHash(password) {
 }
 
 async function checkUser(username) {
-    return fetch(`http://localhost:5000/get/username/${username}`).then(response => response.json())
+    return fetch(`https://apis.warrenfisher.net/get/username/${username}`).then(response => response.json())
 }
 
 /**

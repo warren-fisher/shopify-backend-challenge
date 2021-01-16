@@ -11,7 +11,7 @@ export default function Gallery(props) {
 
 
     const getState = () => {
-        return fetch('http://localhost:5000/get/files', {
+        return fetch('https://apis.warrenfisher.net/get/files', {
             headers: {
                 'token': props.token
             }

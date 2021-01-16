@@ -1,5 +1,3 @@
-DROP SCHEMA imagerepository;
-
 CREATE SCHEMA IF NOT EXISTS imagerepository;
 
 USE imagerepository;

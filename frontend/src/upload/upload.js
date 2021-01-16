@@ -21,7 +21,7 @@ export default function Upload(props) {
             formData.append("File", selectedFiles[0]);
             formData.append("private", isPrivate);
 
-            fetch('http://localhost:5000/post/upload', {
+            fetch('https://apis.warrenfisher.net/post/upload', {
                 method: 'POST',
                 body: formData,
                 headers: { 'token': props.token }
@@ -38,7 +38,7 @@ export default function Upload(props) {
             formData.append("album_name", albumName);
             formData.append("private", isPrivate);
 
-            fetch('http://localhost:5000/post/upload/album', {
+            fetch('https://apis.warrenfisher.net/post/upload/album', {
                 method: 'POST',
                 body: formData,
                 headers: {'token': props.token}

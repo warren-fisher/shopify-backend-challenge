@@ -11,7 +11,7 @@ export default function Album(props) {
 
 
     const getState = () => {
-        return fetch('http://localhost:5000/get/albums', {
+        return fetch('https://apis.warrenfisher.net/get/albums', {
             headers: {
                 'token': props.token
             }
