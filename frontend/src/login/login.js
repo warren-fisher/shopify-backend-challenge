@@ -76,14 +76,10 @@ export default function Login(props) {
         let availableUser = await checkUser(username);
         passwordCheck();
 
-        if (availableUser['available'] === 'true') {
-            console.log("available");
+        if (availableUser['available'] === true) {
             setValidUser(true);
         } else {
-            console.log("not available")
-            console.log(validUser);
             setValidUser(false);
-            console.log(validUser);
         }
 
         console.log(validPassword, validUser);

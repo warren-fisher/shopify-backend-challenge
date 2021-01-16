@@ -13,7 +13,7 @@ import React, {useState, useEffect} from 'react';
 import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 
 function App() {
-    const [token, setToken] = useState();
+    const [token, setToken] = useState('');
 
     return (
         <BrowserRouter>
@@ -32,7 +32,7 @@ function App() {
                 <Switch>
 
                     <Route exact path="/">
-                        <Upload/>
+                        <Upload token={token}/>
                     </Route>
 
                     <Route path="/albums">
