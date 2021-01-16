@@ -1,0 +1,14 @@
+# Image hosting web app
+This web application was created as part of the shopify backend challenge.
+Users are able to upload image file(s)
+## Features
+- Can upload a file
+- Uploading multiple files creates an album
+- Users can optionally create an account
+- Files or albums can be made private (if you have an account)
+
+## TODO
+- Make sure public users cannot check the private box
+- React better display albums
+- Change login button to logout once logged in
+- Save user token as cookie/session storage?
