@@ -11,4 +11,5 @@ Users are able to upload image file(s)
 - Make sure public users cannot check the private box
 - React better display albums
 - Change login button to logout once logged in
-- Save user token as cookie/session storage?
+- Prevent user from uploading the same file multiple times by spam clicking button
+    - Response from clicking button?
