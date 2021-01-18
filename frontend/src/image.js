@@ -10,9 +10,9 @@ function Image(props) {
     let url;
     // If this image is from an album the API endpoint for retrieving it is slightly different
     if (props.album_name) {
-        url = `http://localhost:5000/get/albums/${props.album_name}`;
+        url = `https://apis.warrenfisher.net/get/albums/${props.album_name}`;
     } else {
-        url = "http://localhost:5000/get/files";
+        url = "https://apis.warrenfisher.net/get/files";
     }
 
     return (

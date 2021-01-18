@@ -5,6 +5,8 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 from flask import jsonify
 
+from cred_secret import key
+
 import jwt
 
 import sql
@@ -18,10 +20,10 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 ALLOWED_CHARS = ascii_letters + digits + '_'
 
 app = Flask(__name__)
-cors = CORS(app)
+cors = CORS(app, resources={r"/*": {"origins": ["http:localhost:3000", "https://images.warrenfisher.net"]}})
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['ALBUM_FOLDER'] = ALBUM_FOLDER
-app.config['SECRET_KEY'] = 'ZSVH4q78vBia4GBYuqd09SsiMsIjH'
+app.config['SECRET_KEY'] = key
 
 def get_token(username):
     user_code = sql.get_user_code(username)
@@ -36,10 +38,8 @@ def decode_token(request):
             print("no token??")
             return {"username": None, "user_code": None}
         data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
-        print(data)
         return data
     except Exception as e:
-        print(None)
         return {"username": None, "user_code": None}
 
 # TODO: verify this?
@@ -77,13 +77,11 @@ def upload():
     if request.method == 'POST':
         # check if the post request has the file part
         if 'File' not in request.files:
-            flash('No file part')
             return redirect(request.url)
         file = request.files['File']
         # if user does not select file, browser also
-        # submit an empty part without filename
+        # submits an empty part without filename
         if file.filename == '':
-            flash('No selected file')
             return redirect(request.url)
 
         token = decode_token(request)
@@ -95,8 +93,8 @@ def upload():
             sql.create_file_record(filename, isPrivate, token['user_code'])
 
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
+
+        return jsonify([])
 
 # TODO: filename conflicts, order of saving file and sql record
 @app.route('/post/upload/album', methods=['POST'])
@@ -162,10 +160,12 @@ def login():
 
     if res == 'failure':
         # invalid
+        print('fail')
         return jsonify([])
     else:
         # success
         token = get_token(username)
+        print(token)
         return jsonify(token)
 
 @app.route('/post/register', methods=['POST'])
