@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 
+import api_endpoint from '../config.js';
+
 /**
  *
  * @param {*} props.token, the user token
@@ -21,7 +23,7 @@ export default function Upload(props) {
             formData.append("File", selectedFiles[0]);
             formData.append("private", isPrivate);
 
-            fetch('https://apis.warrenfisher.net/post/upload', {
+            fetch(`${api_endpoint}/post/upload`, {
                 method: 'POST',
                 body: formData,
                 headers: { 'token': props.token }
@@ -38,7 +40,7 @@ export default function Upload(props) {
             formData.append("album_name", albumName);
             formData.append("private", isPrivate);
 
-            fetch('https://apis.warrenfisher.net/post/upload/album', {
+            fetch(`${api_endpoint}/post/upload/album`, {
                 method: 'POST',
                 body: formData,
                 headers: {'token': props.token}
@@ -64,10 +66,15 @@ export default function Upload(props) {
                     <input type="text" name="albumname" onChange={e => setAlbumName(e.target.value)} />
                 </label>
 
-                <label>
-                    <p>Would you like your file(s) to be private?</p>
-                    <input type="checkbox" name="private" onChange={e => setPrivate(e.target.value)} />
-                </label>
+                {/* User can only view private file toggle if they are logged in */}
+                {   props.token ?
+                    <label>
+                        <p>Would you like your file(s) to be private?</p>
+                        <input type="checkbox" name="private" onChange={e => setPrivate(e.target.value)} />
+                    </label>
+                    :
+                    true
+                }
 
                 <label>
                     <p>Upload your file(s) when you are ready</p>

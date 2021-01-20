@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import React from 'react';
+import {useHistory} from "react-router-dom";
 
 import './login.css'
+
+import api_endpoint from '../config.js';
 
 async function loginUser(username, hash) {
 
@@ -9,7 +12,7 @@ async function loginUser(username, hash) {
     formData.append('user', username);
     formData.append('hash', hash);
 
-    return fetch('https://apis.warrenfisher.net/post/login', {
+    return fetch(`${api_endpoint}/post/login`, {
         method: 'POST',
         body: formData,
     }).then(response => response.json());
@@ -21,7 +24,7 @@ async function registerUser(username, hash) {
     formData.append('user', username);
     formData.append('hash', hash);
 
-    return fetch('https://apis.warrenfisher.net/post/register', {
+    return fetch(`${api_endpoint}/post/register`, {
         method: 'POST',
         body: formData,
     }).then(response => response.json());
@@ -39,13 +42,15 @@ async function getHash(password) {
 }
 
 async function checkUser(username) {
-    return fetch(`https://apis.warrenfisher.net/get/username/${username}`).then(response => response.json())
+    return fetch(`${api_endpoint}/get/username/${username}`).then(response => response.json())
 }
 
 /**
- *
+ * React component to handle logging in to the application
  *
  * @param {func} props.setToken, function to set the token
+ * @param {func} props.setUser, function to set the logged in user's name
+ *                  Only purpose is for visual display, the token is used for identity verification
  */
 export default function Login(props) {
 
@@ -57,6 +62,9 @@ export default function Login(props) {
     const [validUser, setValidUser] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
 
+    // History (for redirecting user upon login)
+    const hist = useHistory();
+
     const handleSubmit = async e => {
         // We don't want the form to submit since we have our own custom methods of doing this
         e.preventDefault();
@@ -64,8 +72,19 @@ export default function Login(props) {
         let hash = await getHash(password);
 
         const token = await loginUser(username, hash);
-        console.log(token);
+
+        // User did not register succesfully
+        if (typeof (token) != 'string') {
+            setValidPassword(false);
+            setValidUser(false);
+            return;
+        }
+
+        // User logged in succesfully
         props.setToken(token);
+        props.setUser(username);
+
+        hist.push("/");
     }
 
     // TODO: updating of states is one step behind (everywhere??)
@@ -74,7 +93,8 @@ export default function Login(props) {
         e.preventDefault();
 
         let availableUser = await checkUser(username);
-        passwordCheck();
+        let pswValid = passwordCheck();
+        setValidPassword(pswValid);
 
         if (availableUser['available'] === true) {
             setValidUser(true);
@@ -82,21 +102,31 @@ export default function Login(props) {
             setValidUser(false);
         }
 
-        console.log(validPassword, validUser);
-        if (validPassword == true && validUser == true) {
+        // Dont use state (validPassword, validUser) because it will be one update behind this
+        // Instead use the values found
+        if (pswValid && availableUser['available']) {
             let hash = await getHash(password);
             let token = await registerUser(username, hash);
-            console.log(token);
+
+            // User did not register succesfully
+            if (typeof(token) != 'string') {
+                alert("problem registering. Try again");
+                return;
+            }
+
+            // Users succesfully registered
+            props.setToken(token);
+            props.setUser(username);
+            hist.push("/");
         }
     }
 
     const passwordCheck = () => {
-        console.log(password);
 
         if (password == undefined || password.length < 8) {
-            setValidPassword(false);
+            return false;
         } else {
-            setValidPassword(true);
+            return true;
         }
     }
 
@@ -112,7 +142,7 @@ export default function Login(props) {
                 </label>
 
                 <label>
-                    <p>Password</p>
+                    <p>Enter a password atleast 8 characters long</p>
                     <input className={validPassword == true ? "valid" : "invalid"} type="text" onChange={e => setPassword(e.target.value)}/>
                 </label>
 

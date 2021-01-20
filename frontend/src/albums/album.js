@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Image from '../image.js';
 
+import api_endpoint from '../config.js';
+
 /**
  * 
  * @param {str} props.token, the user token
@@ -11,7 +13,7 @@ export default function Album(props) {
 
 
     const getState = () => {
-        return fetch('https://apis.warrenfisher.net/get/albums', {
+        return fetch(`${api_endpoint}/get/albums`, {
             headers: {
                 'token': props.token
             }

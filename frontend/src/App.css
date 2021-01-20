@@ -51,6 +51,14 @@ header h2 {
     color: white;
 }
 
+h2 a {
+    color: white;
+}
+
+h2 span {
+    padding-left: 20px;
+}
+
 /* Images */
 
 .imgs {

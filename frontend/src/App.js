@@ -16,6 +16,7 @@ import useToken from './useToken.js';
 
 function App() {
     const [token, setToken] = useToken();
+    const [loggedInUser, setLoggedInUser] = useState();
 
     return (
         <BrowserRouter>
@@ -25,7 +26,17 @@ function App() {
                 <h2><Link to={{pathname: "/",}}> Upload your images </Link> </h2>
                 <h2><Link to={{pathname: "/albums",}}> Albums</Link></h2>
                 <h2><Link to={{pathname: "/gallery",}}> Image Gallery</Link></h2>
-                <h2><Link to={{pathname: "/login", }}> Login</Link></h2>
+
+                {/* Only display the login link if the user is not logged in*/}
+                { token ?
+
+                    <h2>Logged in as {loggedInUser}
+                        <span onClick={()=> {setToken(undefined)}}>Logout</span>
+                    </h2>
+                    :
+                    <h2><Link to={{ pathname: "/login", }}> Login</Link></h2>
+                }
+
 
             </header>
 
@@ -47,7 +58,7 @@ function App() {
                     </Route>
 
                     <Route path="/login">
-                        <Login setToken={setToken}/>
+                        <Login setToken={setToken} setUser={setLoggedInUser}/>
                     </Route>
 
                 </Switch>

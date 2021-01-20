@@ -20,7 +20,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 ALLOWED_CHARS = ascii_letters + digits + '_'
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": ["http:localhost:3000", "https://images.warrenfisher.net"]}})
+cors = CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "https://images.warrenfisher.net"]}})
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['ALBUM_FOLDER'] = ALBUM_FOLDER
 app.config['SECRET_KEY'] = key
